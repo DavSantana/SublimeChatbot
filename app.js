@@ -42,33 +42,48 @@ app.post('/', async (req, res) => {
         // --- CEREBRO DE SUBLIME 🧠 ---
         let replyText = "";
 
-        // Detectar saludos
-        if (messageBody.includes("hola") || messageBody.includes("buenas") || messageBody.includes("inicio")) {
-          replyText = "🎓 *¡Hola! Bienvenido a Sublime* ✨\n\nAquí vestimos tu orgullo universitario. ¿Qué te gustaría hacer hoy?\n\n1️⃣ Ver Catálogo (Camisas, Totebags, Suéteres)\n2️⃣ Precios al Mayor (Para grupos/promociones)\n3️⃣ Productos Personalizados\n4️⃣ Hablar con Vero 👩🏻‍💻";
+        // 1. LISTA DE PALABRAS DE ACTIVACIÓN (Trigger Words)
+        // Agregamos más opciones para que sea natural iniciar
+        const saludos = [
+            "hola", "buenas", "hey", "qué tal", "que tal", // Saludos
+            "inicio", "start", "empezar", // Comandos técnicos
+            "menu", "menú", "volver", "atras", // Navegación
+            "info", "informacion", "precio" // Intención de compra
+        ];
+
+        // --- LÓGICA DE RESPUESTAS ---
+
+        // CASO A: El usuario saluda o pide el menú
+        if (saludos.some(palabra => messageBody.includes(palabra))) {
+          replyText = "🎓 *¡Hey! Bienvenido a Sublime* ✨\n\nAquí vestimos tu orgullo universitario. ¿Qué te gustaría hacer hoy?\n\n1️⃣ Ver Catálogo (Camisas, Totebags...)\n2️⃣ Precios al Mayor (Promociones)\n3️⃣ Productos Personalizados\n4️⃣ Hablar con Vero 👩🏻‍💻";
         } 
-        // Opción 1: Catálogo
+        
+        // CASO B: Opción 1 - Catálogo
         else if (messageBody === "1" || messageBody.includes("catalogo") || messageBody.includes("catálogo")) {
-          // TIP: Aquí puedes pegar el link real de tu Instagram o PDF
-          replyText = "📸 ¡Chequea nuestro flow!\n\nPuedes ver todos nuestros diseños disponibles aquí:\n👉 https://identidadsublime.netlify.app/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGn4lB-LzqKyh4xgFS1Cf_dE3-vrQdKun1pLXQEVUti24NLe-Z49cmKMyfA6z4_aem_YYXQgRpKtr60hCLaYBLQEA\n\nAvísame si te gusta alguno.";
+          replyText = "📸 *¡Chequea nuestro flow!*\n\nLa mayoría de nuestras camisas tienen un valor de *23$ (Tasa BCV)*.\n\nPuedes ver todos los diseños aquí:\n👉 https://identidadsublime.netlify.app/\n\n----------------------------\n🔙 Escribe *Menú* para volver a las opciones.";
         } 
-        // Opción 2: Mayor
-        else if (messageBody === "2" || messageBody.includes("mayor") || messageBody.includes("precio")) {
-          replyText = "📦 *¡Viste a toda tu promo!*\n\nManejamos precios especiales a partir de 12 piezas. Ideal para:\n✅ Promociones\n✅ Aniversarios\n✅ Eventos de carrera\n\n¿Para qué carrera o universidad los necesitas?";
+        
+        // CASO C: Opción 2 - Mayor
+        else if (messageBody === "2" || messageBody.includes("mayor")) {
+          replyText = "📦 *¡Viste a toda tu promo!*\n\nManejamos precios especiales a partir de 12 piezas. Ideal para:\n✅ Promociones\n✅ Aniversarios\n✅ Eventos de carrera\n\n¿Para qué universidad los necesitas?\n\n----------------------------\n🔙 Escribe *Menú* para volver.";
         } 
-        // Opción 3: Personalizados
+        
+        // CASO D: Opción 3 - Personalizados
         else if (messageBody === "3" || messageBody.includes("personalizado")) {
-          replyText = "🎨 *¡Tu idea, tu estilo!*\n\nPodemos estampar el diseño que quieras en nuestras prendas. El tiempo de entrega es de 5 a 7 días hábiles.\n\nEscribe *4* para enviarle tu diseño a Vero.";
+          replyText = "🎨 *¡Tu idea, tu estilo!*\n\nPodemos estampar tu propio diseño en nuestras prendas.\n⏱️ Tiempo de entrega: 5-7 días hábiles.\n\nEscribe *4* para enviarle tu diseño a Vero.\n\n----------------------------\n🔙 Escribe *Menú* para volver.";
         } 
-        // Opción 4: Hablar con Vero
+        
+        // CASO E: Opción 4 - Vero
         else if (messageBody === "4" || messageBody.includes("vero") || messageBody.includes("humano")) {
-          replyText = "👩🏻‍💻 ¡Dale! Ya le aviso a Vero que necesitas ayuda personalizada.\n\nEscribe tu duda por aquí y ella te responderá en cuanto se desocupe. 👇";
+          replyText = "👩🏻‍💻 ¡Dale! Ya le aviso a Vero que necesitas ayuda humana.\n\nPuedes ir escribiendo tu duda o enviando tu diseño por aquí mientras ella se conecta. 👇";
         } 
-        // Respuesta por defecto
+        
+        // CASO F: No entendió
         else {
-          replyText = "No entendí muy bien 😅.\nEscribe *Hola* para ver el menú de opciones.";
+          replyText = "No entendí muy bien 😅.\n\nEscribe *Menú* para ver las opciones disponibles.\nO escribe *Vero* para hablar con ella.";
         }
 
-        // Enviar la respuesta
+        // --- ENVIAR RESPUESTA A META ---
         await axios({
           method: 'POST',
           url: `https://graph.facebook.com/v21.0/${businessPhoneId}/messages`,
