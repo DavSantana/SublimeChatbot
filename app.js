@@ -60,7 +60,7 @@ app.post('/', async (req, res) => {
         
         // CASO B: Opción 1 - Catálogo
         else if (messageBody === "1" || messageBody.includes("catalogo") || messageBody.includes("catálogo")) {
-          replyText = "📸 *¡Chequea nuestro flow!*\n\nLa mayoría de nuestras camisas tienen un valor de *23$ (Tasa BCV)*.\n\nPuedes ver todos los diseños aquí:\n👉 https://identidadsublime.netlify.app/\n\n----------------------------\n🔙 Escribe *Menú* para volver a las opciones.";
+          replyText = "📸 *¡Chequea nuestro flow!*\n\nLa mayoría de nuestras camisas tienen un valor de *23$ (Tasa BCV)*.\n\nPuedes ver todos los diseños aquí:\n👉 https://identidadsublime.netlify.app/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGn4lB-LzqKyh4xgFS1Cf_dE3-vrQdKun1pLXQEVUti24NLe-Z49cmKMyfA6z4_aem_YYXQgRpKtr60hCLaYBLQEA/\n\n----------------------------\n🔙 Escribe *Menú* para volver a las opciones.";
         } 
         
         // CASO C: Opción 2 - Mayor
