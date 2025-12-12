@@ -49,7 +49,7 @@ app.post('/', async (req, res) => {
         // Opción 1: Catálogo
         else if (messageBody === "1" || messageBody.includes("catalogo") || messageBody.includes("catálogo")) {
           // TIP: Aquí puedes pegar el link real de tu Instagram o PDF
-          replyText = "📸 ¡Chequea nuestro flow!\n\nPuedes ver todos nuestros diseños disponibles aquí:\n👉 [LINK_A_TU_CATÁLOGO_O_INSTAGRAM]\n\nAvísame si te gusta alguno.";
+          replyText = "📸 ¡Chequea nuestro flow!\n\nPuedes ver todos nuestros diseños disponibles aquí:\n👉 https://identidadsublime.netlify.app/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGn4lB-LzqKyh4xgFS1Cf_dE3-vrQdKun1pLXQEVUti24NLe-Z49cmKMyfA6z4_aem_YYXQgRpKtr60hCLaYBLQEA\n\nAvísame si te gusta alguno.";
         } 
         // Opción 2: Mayor
         else if (messageBody === "2" || messageBody.includes("mayor") || messageBody.includes("precio")) {
